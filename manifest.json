@@ -9,14 +9,21 @@
         "128": "icons/lock.png"
     },
     "permissions": [
+        "storage"
     ],
     "action": {
+        "default_popup": "popup.html"
     },
     "background": {
+        "service_worker": "scripts/_worker.js"
     },
     "content_scripts": [
         {
             "matches": ["<all_urls>"],
+            "js": ["scripts/_utils.js"]
+        },
+        {
+            "matches": ["https://www.google.com/"],
             "js": ["scripts/hello_world.js"]
         }
     ],

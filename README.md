@@ -17,19 +17,22 @@ Building your own Chrome/Edge browser plugin is easy. Get started here.
 5) Find this repo locally, and select the root repo folder
 
 That's it. The plugin is installed.
-You are now greeted with a "hello world" alert on every single page you visit.
+You are now greeted with a "hello world" alert on the Google home page.
 Try it: https://www.google.com/
 
-6) Go back to "Manage Extensions" and disable or remove this plugin ("My Plugin Title"). You'll enable it again after replacing the alert with something more useful.
+To disable the plugin, go back to "Manage Extensions" and disable or remove this plugin ("My Plugin Title").
+To update the plugin, go back to "Manage Extensions" and click "Reload".
 
 # What Have We Got Here
 
 - `manifest.json`
   - Manage the extension
-- `scripts/hello_world.js`
-  - The content script throwing that "hello world" alert
 - `icons/lock.png`
   - Sample icon for the plugin
+- `scripts/hello_world.js`
+  - The content script throwing that "hello world" alert
+- `scripts/_utils.js`
+  - Some helper functions you might want to use in your scripts. This file is matched to `<all_urls>` so it's available for all content scripts.
 
 # Next Steps
 
