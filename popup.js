@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
             checkbox.checked = enabled;
 
             // add handler for checking/unchecking (ie: enabling/disabling) the feature
-            checkbox.addEventListener('change', () => {
+            checkbox.addEventListener('click', () => {
                 result['installedFeatures'].forEach((feature) => {
                     if (feature.name === name) {
                         feature.enabled = checkbox.checked;
@@ -24,16 +24,24 @@ document.addEventListener('DOMContentLoaded', () => {
                 chrome.storage.local.set({ installedFeatures: result['installedFeatures'] });
             });
 
-            const labelHTML = `<label>${label}</label> (<i>${lastUsed}</i>)`;
+            const checkboxCell = document.createElement('td');
+            checkboxCell.style.textAlign = 'center';
+            checkboxCell.appendChild(checkbox);
 
-            const span = document.createElement('span');
-            span.innerHTML = labelHTML;
+            const labelCell = document.createElement('td');
+            labelCell.style.textAlign = 'left';
+            labelCell.innerHTML = `<label>${label}</label>`;
 
-            const li = document.createElement('li');
-            li.appendChild(checkbox);
-            li.appendChild(span);
+            const lastUsedCell = document.createElement('td');
+            lastUsedCell.style.textAlign = 'right';
+            lastUsedCell.innerHTML = `<i>${lastUsed}</i>`;
 
-            featureList.appendChild(li);
+            const row = document.createElement('tr');
+            row.appendChild(checkboxCell);
+            row.appendChild(labelCell);
+            row.appendChild(lastUsedCell);
+
+            featureList.appendChild(row);
         });
     });
 });
