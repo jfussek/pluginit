@@ -33,6 +33,9 @@ To update the plugin, go back to "Manage Extensions" and click "Reload".
   - The content script throwing that "hello world" alert
 - `scripts/_utils.js`
   - Some helper functions you might want to use in your scripts. This file is matched to `<all_urls>` so it's available for all content scripts.
+- `action/popup.html`
+  - The plugin popup HTML (it's Javascript file is sibling)
+  - The content of the feature list is dynamically populated from the content scripts, if you use the helper function `installEnablableFeatureWithCondition`
 
 # Next Steps
 
