@@ -24,17 +24,20 @@ function installEnablableFeatureWithCondition(name, label, condition, callback, 
             installedFeatures = result['installedFeatures'];
         }
 
-        // register the feature if it's the first time running
-        var thisFeature = null;
-        installedFeatures.forEach((feature) => (feature.name === name) ? thisFeature = feature : false );
-
-        if (!thisFeature) {
+        // check if the feature is already installed
+        var thisFeature = installedFeatures.find(f => f.name === name);
+        if (thisFeature) {
+            if (!thisFeature.enabled) {
+                // if this feature is already installed, and not enabled, don't do anything
+                return;
+            }
+        } else {
+            // register the feature if it's the first time running
             thisFeature = { name, label, enabled: true, lastUsed: (new Date()).toLocaleString() };
             installedFeatures.push(thisFeature);
             chrome.storage.local.set({ installedFeatures: installedFeatures });
-        } else {
-            // or ... it has already been registered. So, if it's disabled, don't run it.
-            if (!thisFeature.enabled) return;
+
+            // proceed to running this feature, without waiting for the installation to register
         }
 
 		const runOrWait = (remainingRetries) => {
@@ -59,6 +62,6 @@ function installEnablableFeatureWithCondition(name, label, condition, callback, 
 		}
 
         // first run of the retry loop
-		runOrWait(retries);
+        runOrWait(retries)
 	});
 }
