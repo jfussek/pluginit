@@ -12,7 +12,7 @@
         "storage"
     ],
     "action": {
-        "default_popup": "action/popup.html"
+        "default_popup": "menu/popup.html"
     },
     "background": {
         "service_worker": "scripts/_worker.js"

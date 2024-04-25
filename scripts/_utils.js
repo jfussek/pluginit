@@ -25,6 +25,7 @@ function installEnablableFeatureWithCondition(name, label, condition, callback, 
         }
 
         // check if the feature is already installed
+        // NOTE: this variable is used in `runOrWait` to record the last usage time
         var thisFeature = installedFeatures.find(f => f.name === name);
         if (thisFeature) {
             if (!thisFeature.enabled) {
