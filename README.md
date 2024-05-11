@@ -1,11 +1,11 @@
 # Pluginit -- Init Your Plugin
 
-Building your own browser plugin is easy (*). Get started here.
+<img src="https://edgestatic.azureedge.net/shared/cms/lrs1c69a1j/logos/5a74283229e24d0ca59fb94ed941c3a0.png" width=50 style="float:right"/>
+<img src="https://www.google.com/chrome/static/images/chrome-logo-m100.svg" width=50 style="float:right"/>
+<img src="https://www.mozilla.org/media/protocol/img/logos/firefox/browser/developer/logo.41d42822c8fb.svg" width=50 style="float:right"/>
+<img src="https://brave.com/static-assets/images/brave-logo-sans-text.svg" width=40 style="float:right"/>
 
-<img src="https://edgestatic.azureedge.net/shared/cms/lrs1c69a1j/logos/5a74283229e24d0ca59fb94ed941c3a0.png" width=50/>
-<img src="https://www.google.com/chrome/static/images/chrome-logo-m100.svg" width=50/>
-<img src="https://www.mozilla.org/media/protocol/img/logos/firefox/browser/developer/logo.41d42822c8fb.svg" width=50/>
-<img src="https://brave.com/static-assets/images/brave-logo-sans-text.svg" width=40/>
+Building your own browser plugin is easy (*). Get started here.
 
 _(*) It wouldn't be browser development if there weren't browser differences!_
 
