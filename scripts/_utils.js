@@ -1,4 +1,9 @@
 
+// ... because Chromium and Firefox/Safari use different namespaces
+// https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/Chrome_incompatibilities
+// TODO -- this may interfere with `ns` on websites that use the same variable name
+const ns = typeof chrome === 'undefined' ? browser : chrome;
+
 /**
  *
  * @param {*} name feature name
@@ -18,7 +23,7 @@ function installEnablableFeatureWithCondition(name, label, condition, callback, 
 
     if (name === 'installedFeatures') throw new Error(`Don't name the feature with a reserved name: ${name}`);
 
-    chrome.storage.local.get(['installedFeatures', name], (result) => {
+    ns.storage.local.get(['installedFeatures', name], (result) => {
         var installedFeatures = [];
         if (result['installedFeatures']) {
             installedFeatures = result['installedFeatures'];
@@ -36,7 +41,7 @@ function installEnablableFeatureWithCondition(name, label, condition, callback, 
             // register the feature if it's the first time running
             thisFeature = { name, label, enabled: true, lastUsed: (new Date()).toLocaleString() };
             installedFeatures.push(thisFeature);
-            chrome.storage.local.set({ installedFeatures: installedFeatures });
+            ns.storage.local.set({ installedFeatures: installedFeatures });
 
             // proceed to running this feature, without waiting for the installation to register
         }
@@ -52,7 +57,7 @@ function installEnablableFeatureWithCondition(name, label, condition, callback, 
 
                         // register last usage of the feature
                         thisFeature.lastUsed = (new Date()).toLocaleString();
-                        chrome.storage.local.set({ installedFeatures: installedFeatures });
+                        ns.storage.local.set({ installedFeatures: installedFeatures });
 					} else {
 						runOrWait(remainingRetries-1);
 					}

@@ -1,10 +1,11 @@
 
 installEnablableFeatureWithCondition(
     'hello-world',
-    'Hello World',
+    'Hello Google',
     () => true,
     () => {
         alert('hello world');
     }
 )
+
 

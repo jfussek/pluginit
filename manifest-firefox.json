@@ -15,7 +15,7 @@
         "default_popup": "menu/popup.html"
     },
     "background": {
-        "service_worker": "scripts/_worker.js"
+        "scripts": ["scripts/_worker.js"]
     },
     "content_scripts": [
         {
@@ -27,5 +27,10 @@
             "js": ["scripts/hello_world.js"]
         }
     ],
-    "manifest_version": 3
+    "manifest_version": 3,
+    "browser_specific_settings": {
+        "gecko": {
+            "id": "pluginit@example.com"
+        }
+    }
 }
