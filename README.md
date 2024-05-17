@@ -27,9 +27,7 @@ _(*) It wouldn't be browser development if there weren't browser differences!_
    - Chrome: top left
 5) Find this repo locally, and select the root repo folder
 
-That's it. The plugin is installed.
-You are now greeted with a "hello world" alert on the Google home page.
-Try it: https://www.google.com/
+That's it. The plugin is installed. Open https://www.google.com/ and see a red border (and a "Hello World").
 
 To disable the plugin, go back to "Manage Extensions" and disable or remove this plugin ("My Plugin Title").
 To update the plugin, go back to "Manage Extensions" and click "Reload".
@@ -56,9 +54,7 @@ Note: Using this approach, Firefox will not keep the plugin installed after a br
 7) Go back to "Manage Extensions", and click on the plugin
 8) Open the "Permissions" tab, and toggle "Access your data for all websites"
 
-And there you have it: the plugin is installed.
-You are now greeted with a "hello world" alert on the Google home page.
-Try it: https://www.google.com/
+And there you have it: the plugin is installed. Open https://www.google.com/ and see a red border (and a "Hello World").
 
 To update the plugin, go back to "Debug Add-ons", and click "Reload" button on this plugin.
 
@@ -88,10 +84,14 @@ Now the plugin is installed permanently, but changes to the source won't be refl
   - Manage the extension
 - `icons/lock.png`
   - Sample icon for the plugin
-- `scripts/hello_world.js`
-  - The content script throwing that "hello world" alert
 - `scripts/_utils.js`
   - Some helper functions you might want to use in your scripts. This file is matched to `<all_urls>` so it's available for all content scripts.
+  - One in particular, `installEnablableFeatureWithCondition` can be used to automatically register your content script into the plugin popup. It also
+    provides a way to check conditions on the page before attempting to execute your change. See the function documentation, or the sample `clean-search.js`.
+- `scripts/hello-world.js`
+  - simplest sample of a content script making two changes to the Google site
+- `scripts/clean-search.js`
+  - a more interesting sample script: it removes Google search results matching a specific list of domains
 - `menu/popup.html`
   - The plugin popup HTML (it's Javascript file is sibling)
   - The content of the feature list is dynamically populated from the content scripts, if you use the helper function `installEnablableFeatureWithCondition`

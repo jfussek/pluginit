@@ -71,3 +71,18 @@ function installEnablableFeatureWithCondition(name, label, condition, callback, 
         runOrWait(retries)
 	});
 }
+
+/**
+ * Temporarily highlights the passed element with the passed color.
+ *
+ * @param {*} el
+ * @param {*} color
+ */
+
+function highlightElement(el, color) {
+	const currentBg = el.style.backgroundColor;
+    el.animate([
+        { backgroundColor: color },
+        { backgroundColor: currentBg}
+    ], 1000);
+}
