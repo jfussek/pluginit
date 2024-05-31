@@ -17,11 +17,11 @@
     "background": {
         "scripts": ["scripts/_worker.js"]
     },
+    "web_accessible_resources": [{
+        "matches": ["<all_urls>"],
+        "resources": ["scripts/_utils.js"]
+    }],
     "content_scripts": [
-        {
-            "matches": ["<all_urls>"],
-            "js": ["scripts/_utils.js"]
-        },
         {
             "matches": ["https://www.google.com/*"],
             "js": ["scripts/hello-world.js", "scripts/clean-search.js"]
