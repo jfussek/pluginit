@@ -1,8 +1,10 @@
 
+const browserContext = typeof chrome === 'undefined' ? browser : chrome;
+
 document.addEventListener('DOMContentLoaded', () => {
 
     // dynamically fill the feature list
-    chrome.storage.local.get(['installedFeatures'], (result) => {
+    browserContext.storage.local.get(['installedFeatures'], (result) => {
         if (!result['installedFeatures']) return;
 
         const featureList = document.querySelector('#feature_list');
@@ -21,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         feature.enabled = checkbox.checked;
                     }
                 });
-                chrome.storage.local.set({ installedFeatures: result['installedFeatures'] });
+                browserContext.storage.local.set({ installedFeatures: result['installedFeatures'] });
             });
 
             const checkboxCell = document.createElement('td');

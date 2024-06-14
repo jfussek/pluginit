@@ -9,7 +9,10 @@
         "128": "icons/lock.png"
     },
     "permissions": [
-        "storage"
+        "storage",
+        "contextMenus",
+        "tabs",
+        "activeTab"
     ],
     "action": {
         "default_popup": "menu/popup.html"

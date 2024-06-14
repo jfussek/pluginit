@@ -13,3 +13,11 @@ if (googleLogo) {
     googleLogo.parentNode.appendChild(hello);
 }
 
+const browserContext = typeof chrome === 'undefined' ? browser : chrome;
+browserContext.runtime.onMessage.addListener(msg => {
+    // handler for the context menu
+    if (msg.menuItemId === 'contextMenuId') {
+        alert('context menu item clicked');
+    }
+});
+

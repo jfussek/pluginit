@@ -17,12 +17,42 @@ const browserContext = typeof chrome === 'undefined' ? browser : chrome;
  */
 
 function installEnablableFeatureWithCondition(name, label, condition, callback, timingOptions) {
-	const retries = timingOptions && timingOptions.retries || 10;
-	const delay = timingOptions && timingOptions.delay || 500;
+    const retries = timingOptions && timingOptions.retries || 10;
+    const delay = timingOptions && timingOptions.delay || 500;
 
     if (name === 'installedFeatures') throw new Error(`Don't name the feature with a reserved name: ${name}`);
 
-    browserContext.storage.local.get(['installedFeatures', name], (result) => {
+    const runOrWait = (remainingRetries) => {
+        if (remainingRetries > 0) {
+            setTimeout(function() {
+                const transferToCallback = {
+                    // empty object to be filled by condition call and passed to callback
+                }
+                if (condition(transferToCallback)) {
+                    callback(transferToCallback);
+
+                    // record the last usage of the feature
+                    // have to pull the latest records, otherwise we're building off the snapshot from the installation point
+                    browserContext.storage.local.get(['installedFeatures']).then((result) => {
+                        var installedFeatures = result['installedFeatures'];
+                        var thisFeature = installedFeatures.find(f => f.name === name);
+
+                        if (thisFeature) {
+                            // register last usage of the feature
+                            thisFeature.lastUsed = (new Date()).toLocaleString();
+                            browserContext.storage.local.set({ installedFeatures });
+                        }
+                    });
+                } else {
+                    runOrWait(remainingRetries-1);
+                }
+            }, delay);
+        } else {
+            // condition hasn't been met and we're out of retries -- nothing to do
+        }
+    }
+
+    browserContext.storage.local.get(['installedFeatures'], (result) => {
         var installedFeatures = [];
         if (result['installedFeatures']) {
             installedFeatures = result['installedFeatures'];
@@ -36,39 +66,19 @@ function installEnablableFeatureWithCondition(name, label, condition, callback, 
                 // if this feature is already installed, and not enabled, don't do anything
                 return;
             }
+
+            // first run of the retry loop
+            runOrWait(retries);
         } else {
             // register the feature if it's the first time running
-            thisFeature = { name, label, enabled: true, lastUsed: (new Date()).toLocaleString() };
+            thisFeature = { name, label, enabled: true, lastUsed: "Never" };
             installedFeatures.push(thisFeature);
-            browserContext.storage.local.set({ installedFeatures: installedFeatures });
-
-            // proceed to running this feature, without waiting for the installation to register
+            browserContext.storage.local.set({ installedFeatures: installedFeatures }).then(() => {
+                // first run of the retry loop
+                runOrWait(retries);
+            });
         }
-
-		const runOrWait = (remainingRetries) => {
-			if (remainingRetries > 0) {
-				setTimeout(function() {
-					const transferToCallback = {
-						// empty object to be filled by condition call and passed to callback
-					}
-					if (condition(transferToCallback)) {
-						callback(transferToCallback);
-
-                        // register last usage of the feature
-                        thisFeature.lastUsed = (new Date()).toLocaleString();
-                        browserContext.storage.local.set({ installedFeatures: installedFeatures });
-					} else {
-						runOrWait(remainingRetries-1);
-					}
-				}, delay);
-			} else {
-				// condition hasn't been met and we're out of retries -- nothing to do
-			}
-		}
-
-        // first run of the retry loop
-        runOrWait(retries)
-	});
+    });
 }
 
 /**
